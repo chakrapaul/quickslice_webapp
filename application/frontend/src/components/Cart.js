@@ -41,85 +41,65 @@ export default class Cart extends react.Component {
 
 
     render() {
-        var op;
-        if (this.state.cart !== null) {
-            op = this.state.cart.map((pizza, index) => {
-                return (
-                    <tr>
-                        <td><img src={pizza.Image} style={{ height: '30px', width: '30px' }} /></td>
-                        <td>{pizza.name}</td>
-                        <td>
-
-                            &nbsp;&nbsp;
-                            {pizza.quantity}
-                            &nbsp;&nbsp;
-                        </td>
-                        <td>
-                            {this.state.total = pizza.quantity * pizza.price}
-                        </td>
-                        <td>
-                            <button class="btn btn-warning" onClick={() => {
-                                axios.post("http://localhost:5000/deletefromcart", pizza)
-                                    .then((responce) => { })
-                                    .catch((err) => {
-                                        console.log(err)
-                                    });
-                            }
-                            }> Delete Item
-                            </button>
-                        </td>
-
-                    </tr>
-                )
-            })
-        }
-        else {
-            op = <div><h1>Nothing in the Cart!</h1></div>
-        }
+        const { cart } = this.state;
+    
         return (
-
             <div style={{ margin: '70px', textAlign: "center", border: '1px solid yellow' }}>
                 <br />
                 <h1>Pizzeria Cart</h1>
-
-                <div className='row' style={{ margin: '50px' }} >
-                    <table class="table table-bordered">
-
+    
+                <div className='row' style={{ margin: '50px' }}>
+                    <table className="table table-bordered">
                         <thead>
-                            <th>image</th>
-                            <th>name</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th />
-
+                            <tr>
+                                <th>Image</th>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th></th>
+                            </tr>
                         </thead>
                         <tbody>
-                            {op}
+                            {cart && cart.map((pizza, index) => (
+                                <tr key={index}>
+                                    <td>
+                                        <img src={pizza.Image} alt={pizza.name} style={{ height: '30px', width: '30px' }} />
+                                    </td>
+                                    <td>{pizza.name}</td>
+                                    <td>{pizza.quantity}</td>
+                                    <td>{pizza.price * pizza.quantity}</td>
+                                    <td>
+                                        <button className="btn btn-warning" onClick={() => {
+                                            axios.post("http://localhost:5000/deletefromcart", pizza)
+                                                .then((res) => window.location.reload())
+                                                .catch((err) => console.log(err));
+                                        }}>
+                                            Delete Item
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
-
                     </table>
+    
                     <div className='Bill' style={{ textAlign: 'left' }}>
                         <h2>Bill:</h2>
                         <hr />
-                        <h6>Order Pizza :${this.totalPrice()}</h6>
-                        <h6>Total Cart :${this.totalPrice()}</h6>
+                        <h6>Order Pizza: ${this.totalPrice()}</h6>
+                        <h6>Total Cart: ${this.totalPrice()}</h6>
                     </div>
-
-                    <div >
+    
+                    <div>
                         <br />
-                        <button class="btn btn-warning" style={{ marginleft: '450px' }} onClick={() => {
-                            this.props.history.push('./Cartt')
-                        }}>
-                            Check Out</button> &nbsp;
-                        <button class="btn btn-warning" style={{ marginleft: '450px' }} onClick={() => {
-                            this.props.history.push('./OrderPizza')
-                        }}>
-                            Menu</button>
-                    </div> &nbsp;
-
+                        <button className="btn btn-warning" onClick={() => this.props.history.push('./Cartt')}>
+                            Check Out
+                        </button> &nbsp;
+                        <button className="btn btn-warning" onClick={() => this.props.history.push('./OrderPizza')}>
+                            Menu
+                        </button>
+                    </div>
                 </div>
-            </div >
+            </div>
         );
-
     }
 }

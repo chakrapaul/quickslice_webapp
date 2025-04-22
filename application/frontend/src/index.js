@@ -12,6 +12,8 @@ import Register from './components/Register';
 import Cart from './components/Cart';
 import Cartt from './components/Cartt';
 import CheckLogin from './components/CheckLogin';
+import payment from './components/payment';
+
 
 ReactDOM.render(
   <BrowserRouter>
@@ -30,6 +32,8 @@ ReactDOM.render(
     <Route path="/Cart" component={Cart} />
     <Route path="/Cartt" component={Cartt} />
     <Route path="/CheckLogin" component={CheckLogin} />
+    <Route path="/payment" component={payment} />
+
   </BrowserRouter>,
 
   document.getElementById('root')
