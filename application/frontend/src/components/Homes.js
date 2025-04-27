@@ -4,98 +4,113 @@ import ChefLogo from '../images/ChefLogo.jpg';
 import TimeLogo from '../images/TimeLogo.jpg';
 import axios from 'axios';
 
-export default class Cart extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+export default class Homes extends React.Component {
+  render() {
+    const loggedIn = localStorage.getItem("loggedIn") === "1";
+    const buttonStyle = {
+      float: 'right',
+      padding: '10px 20px',
+      fontWeight: 'bold',
+      fontSize: '16px',
+      background: '#0ff',
+      color: '#000',
+      border: '2px solid #0ff',
+      borderRadius: '8px',
+      textShadow: '0 0 8px #0ff',
+      boxShadow: '0 0 12px #0ff',
+      margin: '20px',
+      cursor: 'pointer'
+    };
 
-    render() {
-        const btn = localStorage.getItem("loggedIn") === "1" ? (
-            <button
-                style={{ float: 'right' }}
-                type="button"
-                className="btn btn-outline-light"
-                title="Logout"
-                onClick={() => {
-                    axios.get("http://localhost:5000/logout")
-                        .then(() => this.props.history.push("/Homes"))
-                        .catch((err) => console.log(err));
-                    localStorage.clear();
-                }}
-            >
-                Logout
-            </button>
-        ) : (
-            <button
-                style={{ float: 'right' }}
-                type="button"
-                className="btn btn-outline-light"
-                title="Login"
-                onClick={() => this.props.history.push("./Login")}
-            >
-                Login
-            </button>
-        );
+    return (
+      <div style={{ backgroundColor: '#0a0a0a', color: 'white', minHeight: '100vh', padding: '30px' }}>
+        {/* Navbar */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <h2 style={{ color: '#ff6600', fontWeight: 'bold' }}>🍕 QuickSlice</h2>
+          <button
+            style={buttonStyle}
+            onClick={() => {
+              if (loggedIn) {
+                axios.get("http://localhost:5000/logout")
+                  .then(() => this.props.history.push("/Homes"))
+                  .catch((err) => console.log(err));
+                localStorage.clear();
+              } else {
+                this.props.history.push("/Login");
+              }
+            }}
+          >
+            {loggedIn ? 'Logout' : 'Login'}
+          </button>
+        </div>
 
-        return (
-            <div style={{ backgroundColor: '#121212', minHeight: '100vh', color: 'white', padding: '30px' }}>
-                {btn}
-                <br />
-                <h1 style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '40px', color: '#ffc107' }}>
-                    🍕 QuickSlice - Our Story
-                </h1>
-                <br />
+        {/* Welcome Message */}
+        <div style={{ textAlign: 'center', marginTop: '40px' }}>
+          <h1 style={{ fontSize: '38px', color: '#ff4747', fontWeight: 'bold' }}>
+            🍕 Welcome to QuickSlice
+          </h1>
+          <h4 style={{ color: '#ffd700', marginBottom: '20px' }}>Where every bite tells a story</h4>
+          <p style={{ fontSize: '18px', maxWidth: '900px', margin: '0 auto', lineHeight: '1.8' }}>
+            Born from passion, perfected with flavor. At <b>QuickSlice</b>, we blend tradition with innovation— 
+            from hand-crafted crusts to bold signature sauces. Each slice is more than food; it’s an experience.
+            Whether you're cheering for your favorite team or sharing laughs with family, we’re here to bring 
+            comfort and crave-worthy pizza right to your table.
+          </p>
+        </div>
 
-                <div className="container" style={{ lineHeight: '2', fontSize: '18px' }}>
-                    <p>
-                        Welcome to a pizza revolution! At <b>QuickSlice</b>, we don’t just bake—
-                        we craft unforgettable flavor moments. Born from a passion for cheesy goodness
-                        and late-night cravings, we’ve been making pizza lovers smile since day one.
-                        <br /><br />
-                        Whether it’s a football night or a family dinner, our hand-stretched crusts,
-                        signature sauces, and loaded toppings promise one thing—mouthwatering satisfaction.
-                        Come for the pizza. Stay for the story.
-                    </p>
-                </div>
+        {/* Features Section */}
+        <div className="container mt-5" style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap', gap: '40px' }}>
+          {/* Ingredients */}
+          <div style={sectionCardStyle}>
+            <img src={IngredientsLogo} alt="Ingredients" style={circleImgStyle} />
+            <h3 style={{ color: '#00ff95' }}>🌿 Farm-Fresh Ingredients</h3>
+            <p>
+              Hand-picked, never processed. From vine-ripened tomatoes to creamy mozzarella, our ingredients 
+              are always premium, always fresh. Because great pizza starts at the roots.
+            </p>
+          </div>
 
-                {/* Ingredients */}
-                <div className="container my-5 d-flex align-items-center">
-                    <img src={IngredientsLogo} alt="Ingredients" className="rounded-circle mr-4" style={{ width: '220px', height: '220px', objectFit: 'cover' }} />
-                    <div>
-                        <h2 style={{ color: '#ff6f61', fontWeight: 'bold', fontSize: '28px' }}>🌿 Fresh Ingredients</h2>
-                        <p style={{ fontSize: '18px', lineHeight: '1.8' }}>
-                            We handpick every tomato, basil leaf, and cheese wheel to ensure you're getting the
-                            freshest bites every time. Our ingredients travel from farm to flame in record time—
-                            all for that unforgettable first bite.
-                        </p>
-                    </div>
-                </div>
+          {/* Chef */}
+          <div style={sectionCardStyle}>
+            <img src={ChefLogo} alt="Chefs" style={circleImgStyle} />
+            <h3 style={{ color: '#29b6f6' }}>👨‍🍳 Artisan Pizza Makers</h3>
+            <p>
+              Every QuickSlice is a masterpiece. Our expert chefs combine heritage techniques with modern flair 
+              to deliver that perfect bite every time. Crispy edges. Melty cheese. Bold flavors. Done right.
+            </p>
+          </div>
 
-                {/* Chefs */}
-                <div className="container my-5 d-flex align-items-center flex-row-reverse">
-                    <img src={ChefLogo} alt="Chef" className="rounded-circle ml-4" style={{ width: '220px', height: '220px', objectFit: 'cover' }} />
-                    <div>
-                        <h2 style={{ color: '#7ed6df', fontWeight: 'bold', fontSize: '28px' }}>👨‍🍳 Master Chefs</h2>
-                        <p style={{ fontSize: '18px', lineHeight: '1.8' }}>
-                            Our culinary wizards knead, bake, and drizzle to perfection. With years of
-                            experience and a deep love for food, they make every pizza a masterpiece—
-                            one slice at a time.
-                        </p>
-                    </div>
-                </div>
-
-                {/* Delivery */}
-                <div className="container my-5 d-flex align-items-center">
-                    <img src={TimeLogo} alt="Delivery" className="rounded-circle mr-4" style={{ width: '220px', height: '220px', objectFit: 'cover' }} />
-                    <div>
-                        <h2 style={{ color: '#f6e58d', fontWeight: 'bold', fontSize: '28px' }}>🚚 45-Minute Delivery</h2>
-                        <p style={{ fontSize: '18px', lineHeight: '1.8' }}>
-                            Hot pizza, fast delivery. We guarantee your pizza will be delivered in under 45 minutes—
-                            fresh, delicious, and piping hot. Because nobody likes waiting for greatness.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        );
-    }
+          {/* Delivery */}
+          <div style={sectionCardStyle}>
+            <img src={TimeLogo} alt="Delivery" style={circleImgStyle} />
+            <h3 style={{ color: '#ffd54f' }}>🚚 Lightning-Fast Delivery</h3>
+            <p>
+              You’re hungry, we get it. That’s why we promise your pizza hot and ready in under 45 minutes.
+              Timely. Tasty. Trusted. Get comfort food delivered, without the wait.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
+
+// 🔧 Styling Blocks
+const sectionCardStyle = {
+  background: '#1c1c1c',
+  borderRadius: '16px',
+  padding: '20px',
+  maxWidth: '300px',
+  textAlign: 'center',
+  color: '#fff',
+  boxShadow: '0 0 12px rgba(255,255,255,0.1)',
+};
+
+const circleImgStyle = {
+  width: '180px',
+  height: '180px',
+  objectFit: 'cover',
+  borderRadius: '50%',
+  marginBottom: '15px',
+  boxShadow: '0 0 8px #333',
+};

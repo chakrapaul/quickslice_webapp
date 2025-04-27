@@ -13,6 +13,8 @@ import Cart from './components/Cart';
 import Cartt from './components/Cartt';
 import CheckLogin from './components/CheckLogin';
 import payment from './components/payment';
+import DrinksDesserts from './components/DrinksDesserts';
+
 
 
 ReactDOM.render(
@@ -33,6 +35,8 @@ ReactDOM.render(
     <Route path="/Cartt" component={Cartt} />
     <Route path="/CheckLogin" component={CheckLogin} />
     <Route path="/payment" component={payment} />
+    <Route path="/DrinksDesserts" component={DrinksDesserts} />
+
 
   </BrowserRouter>,
 
